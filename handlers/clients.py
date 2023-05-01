@@ -2,7 +2,7 @@ from config import bot
 from aiogram import types, Dispatcher
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import random
-
+from database.bot_db import sql_command_random
 
 async def start_command(message: types.Message):
     await bot.send_message(message.from_user.id, f"Привет хозяин {message.from_user.full_name}!")
@@ -48,8 +48,17 @@ async def send_meme(message: types.Message):
 
     await bot.send_message(chat_id=message.from_user.id, text=random_mem)
 
-
+async def get_random_anketa (message: types.Message):
+    random_user = await sql_command_random()
+    await message.answer(f'информация о менторе:\n'
+                         f'ID ментора - {random_user[-1]}\n'
+                         f'имя ментора -{random_user[3]}\n'
+                         f'напровление - {random_user[4]}\n'
+                         f'сколько лет -{random_user[5]}\n'
+                         f'група - {random_user[6]} + f\n\n@{random_user[2]}' if random_user[2] else ''
+                         )
 def register_clients(dp: Dispatcher):
     dp.register_message_handler(start_command, commands=['start'])
     dp.register_message_handler(quiz_1, commands=['quiz'])
     dp.register_message_handler(send_meme, commands=['mem'])
+    dp.register_message_handler(get_random_anketa, commands=['get'])
