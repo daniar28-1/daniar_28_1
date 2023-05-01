@@ -2,9 +2,20 @@ from config import bot
 from aiogram import types, Dispatcher
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import random
-from database.bot_db import sql_command_random
+from database.bot_db import sql_command_random, sql_command_all_uses, sql_command_inster_user
+from .utlis import get_ids_from_users
+
 
 async def start_command(message: types.Message):
+    users = await sql_command_all_uses()
+    ids = get_ids_from_users(users)
+    if message.from_user.id not in ids:
+        await sql_command_all_uses(
+            message.from_user.id,
+            message.from_user.username,
+            message.from_user.full_name
+        )
+
     await bot.send_message(message.from_user.id, f"Привет хозяин {message.from_user.full_name}!")
     await message.answer("This is an answer method!")
     await message.reply("This is a reply method!")

@@ -2,7 +2,7 @@ from aiogram.utils import executor
 import logging
 
 from config import dp, bot,ADMINS
-from handlers import admin, clients, callback, extra, fsm_anketa
+from handlers import admin, clients, callback, extra, fsm_anketa,schedule
 from database.bot_db import sql_creatr
 
 
@@ -15,6 +15,7 @@ extra.register_extra(dp)
 
 
 async def on_startup(dp):
+    await schedule.set_sheduler()
     sql_creatr()
     await bot.send_message(ADMINS[0], 'HELOO!')
 

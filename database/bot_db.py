@@ -12,15 +12,19 @@ def sql_creatr():
         print('база данных потключина!')
 
     db.execute(
-        'CREATE TABLE IF NOT EXISTS anketa'
-        'id INTEGER PRIMARY KEU AUTOINCREMENT, '
-        'teligram_id INTEGER UNIQE, '
+        'CREATE TABLE IF NOT EXISTS users'
+        '(teligram_id INTEGER PRIMARY KEU , '
         'username VARCHAR (50), '
-        ' name_mentor VARCHAR (50), '
-        ' direction VARCHAR(50), '
-        ' age_mentor INTEGER, '
-        ' group INTEGER) '
+        'fullname VARCHAR (50))'
     )
+    db.commit()
+
+
+async def sql_command_all_uses():
+    return cursor.execute('SELECT * FROM uses').fetchall
+
+async def sql_command_inster_user(telegram_id, username, fullname):
+    cursor.execute('INSERT INTO users VALUES  (?, ?, ?)', (telegram_id, username, fullname))
     db.commit()
 
 
