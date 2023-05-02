@@ -2,7 +2,7 @@ import datetime
 
 from aiogram import Bot
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from apscheduler.triggers.cron import Crontrigger
+from apscheduler.triggers.cron import CronTrigger
 
 from database.bot_db import sql_command_all_uses
 from config import bot
@@ -13,6 +13,10 @@ async def go_get_some_rest(bot: Bot):
     users = await sql_command_all_uses()
     for user in users:
         await bot.send_message(users[0], f'Привет {user[-1]}/nПора отдыхыть')
+
+
+class Crontrigger:
+    pass
 
 
 async def set_sheduler():
