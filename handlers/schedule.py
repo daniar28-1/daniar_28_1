@@ -31,4 +31,5 @@ async def set_sheduler():
         )
     )
 
+    from sched import scheduler
     scheduler.start()
